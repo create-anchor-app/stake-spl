@@ -152,6 +152,7 @@ pub struct Initialize<'info> {
         token::authority = vault_x
     )]
     pub vault_x: Account<'info, TokenAccount>, 
+    #[account(mut)]
     pub payer: Signer<'info>,
     // accounts required to init a new mint
     pub system_program: Program<'info, System>,
@@ -163,8 +164,9 @@ pub struct Initialize<'info> {
 #[derive(Accounts)]
 pub struct NewStaker<'info> {
     pub token_x: Account<'info, Mint>,
-    #[account(init, payer=sender, seeds=[b"reciept", token_x.key().as_ref(), sender.key().as_ref()], bump)] 
+    #[account(init,space=9000, payer=sender, seeds=[b"reciept", token_x.key().as_ref(), sender.key().as_ref()], bump)] 
     pub reciept: Account<'info, Receipt>,
+    #[account(mut)]
     pub sender: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
